@@ -21,46 +21,30 @@ mergeTwoLinkedLists(l1, l2) = [0, 1, 1, 2, 3, 4, 5].
 
 import numpy as np
 
-def mergeTwoLinkedLists(l1, l2):
-    list1=[]
-    list2=[]
-    
-    #Unpack linked lists into lists
-    c=l1
-    if c:
-        list1.append(c.value)
-    while c and c.next!=None:
-        list1.append(c.next.value)
-        c=c.next
-    
-    c=l2
-    if c:
-        list2.append(c.value)
-    while c and c.next!=None:
-        list2.append(c.next.value)
-        c=c.next
-    
-    #dont bother sorting if there is only one list
-    if len(list1)==0:
-        return(list2)
-    elif len(list2)==0:
-        return(list1)
-    
-    sorted_list=[]
-    while list1 and list2:
-        #if both lists exist pick the lower value adn then remove it from that list
-        if list1 and list2:
-            sorted_list.append(np.min([list1[0],list2[0]]))
-            if list1[0]==sorted_list[-1]:
-                del list1[0]
-            else:
-                del list2[0]
-        #once one list is completely empty just extend the sorted list by the remaining list
-        if list1 and not list2:
-            sorted_list.extend(list1)
-            list1=[]
-        if list2 and not list1:
-            sorted_list.extend(list2)
-            list2=[]
+class ListNode(object):
+    def __init__(self, x):
+        self.value = x
+        self.next = None
 
-    return(sorted_list)
+def mergeTwoLinkedLists(l1, l2):
+    sorted_list=ListNode(None)
+    curr=sorted_list
+    while l1 and l2:
+        if l1.value <= l2.value:
+            curr.next=l1
+            l1=l1.next
+        else:
+            curr.next=l2
+            l2=l2.next
+        curr=curr.next
+        
+    #once one of the lists is depleted we will break out of while loop
+    #Take all remaining values from whichever list remains
+    while l1:
+        curr.next=l1
+        l1=l1.next
+    while l2:
+        curr.next=l2
+        l2=l2.next
+
+    return(sorted_list.next)
