@@ -11,6 +11,8 @@ Then challenged myself to improve on the list structure by adding functions such
 as fastAppend which is O(1) instead of O(n) and insert
 """
 
+import numpy as np
+
 class node:
     def __init__(self,data=None):
         self.data=data
@@ -35,10 +37,19 @@ class linked_list:
         self.tail=new_node
         
 
-    def length(self):
+    def length(self,start_node=None):
+        '''
+        Measure the length of the linked list starting at the head node
+        
+        if start_node=node then linked list will be measured from that node to the end
+        '''
         idx=0
-        current_node=self.head
-        while current_node.next!=None:
+        if start_node:
+            current_node=start_node
+        else:
+            current_node=self.head
+            
+        while current_node!=None:
             idx+=1
             current_node=current_node.next
         return(idx)
@@ -49,9 +60,11 @@ class linked_list:
         '''
         elems = []
         current_node=self.head
-        while current_node.next!=None:
-            current_node=current_node.next
+        while current_node:
             elems.append(current_node.data)
+            current_node=current_node.next
+        if None in elems:
+            elems.remove(None)
         return(elems)
     
     def get(self,index):
@@ -98,33 +111,111 @@ class linked_list:
         
         new_node.next=current_node.next
         current_node.next=new_node
+    
+    def reverse(self):
+        '''
+        reverse the entire linked list
+        '''
+        previous=None
+        current_node=self.head
+        while current_node!=None:
+            #retain next node as future
+            future=current_node.next
+            
+            #make current node point back to previous node
+            current_node.next=previous
+            
+            #retain current node as new previous node
+            previous=current_node
+            
+            #Change current node to future
+            current_node=future
+        
+        
+        self.tail=self.head
+        self.head=previous
+        
+    net_count=0        
+    def reverseBatches(self,head,k,net_count=net_count):
+        previous=None
+        future=None
+        current_node=head
+        count=0
+        
+        ll_len=self.length(start_node=current_node)
+        #print(ll_len)
+        
+        if ll_len>=k:
+            modulo=k
+        else:
+            modulo=1
+            
+        while current_node!=None and count<modulo:
+            #retain next node as future
+            future=current_node.next
+            
+            #make current node point back to previous node
+            current_node.next=previous
+            
+            #retain current node as new previous node
+            previous=current_node
+            
+            #Change current node to future
+            current_node=future
+            
+            count+=1
+            
+
+            
+        if future!=None:
+            head.next=self.reverseBatches(future,k)
+        
+        return(previous)
+            
+        
+        
+        self.tail=self.head
+        self.head=previous
+    
+    def reverse2(self, head, k): 
+        current = head  
+        next  = None
+        prev = None
+        count = 0 
+          
+        # Reverse first k nodes of the linked list 
+        while(current is not None and count < k): 
+            next = current.next
+            current.next = prev 
+            prev = current 
+            current = next 
+            count += 1
+  
+        # next is now a pointer to (k+1)th node 
+        # recursively call for the list starting 
+        # from current. And make rest of the list as 
+        # next of first node 
+        if next is not None: 
+            head.next = self.reverse2(next, k) 
+  
+        # prev is new head of the input list 
+        return prev 
+        
+        
+        
+            
+            
         
 
 if __name__ == '__main__':
-    
-    #Test get and display functions
     my_list=linked_list()
-    for i in [1,3,55,3,3,5,6,6,6,6,43,3,7]:
-        my_list.append(i)
+    for i in [1,2,3,4,5,6,7,8,9,10,11]:
+        my_list.fastAppend(i)
+    
+    #print(my_list.display())
     
     print(my_list.display())
-    print(my_list.get(2))
-    
-    
-    #Test erase function
-    my_list.erase(2)
+    my_list.head=my_list.reverseBatches(my_list.head.next,3)
     print(my_list.display())
-    
-    
-    #Test insertion function
-    my_list.insert(56,2)
-    print(my_list.display())
-    
-    
-    #Test fast append function (this should be O(1) instead of O(n))
-    my_list.fastAppend(4)
-    my_list.fastAppend(5)
-    print(my_list.display())
-    
-    
+
         
