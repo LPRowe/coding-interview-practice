@@ -57,4 +57,9 @@ The number of years it would take to hit the threshold.
 """
 
 def depositProfit(deposit, rate, threshold):
-    
+    year=0
+    total=deposit
+    while total<threshold:
+        year+=1
+        total=total*(1+rate/100)
+    return(year)
