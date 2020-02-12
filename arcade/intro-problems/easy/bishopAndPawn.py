@@ -51,3 +51,34 @@ true if the bishop can capture the pawn, false otherwise.
 """
 
 def bishopAndPawn(bishop, pawn):
+    '''
+    Bishop Rules:
+    bishop: g2 --> [7,2]
+    bishop[0] and bishop[1] must change by the same ammount to be valid
+    bishop[0] and bishop[1] must be in [1:8,1:8]
+    '''
+
+    location_dict={
+        'a':1,
+        'b':2,
+        'c':3,
+        'd':4,
+        'e':5,
+        'f':6,
+        'g':7,
+        'h':8
+    }
+
+    bishop=[location_dict[bishop[0]],int(bishop[1])]
+    pawn=[location_dict[pawn[0]],int(pawn[1])]
+
+    bishop_potential=[]
+    for i in range(1,9):
+        for j in range(1,9):
+            if abs(i-bishop[0])==abs(j-bishop[1]):
+                bishop_potential.append((i,j))
+
+    if (pawn[0],pawn[1]) in bishop_potential:
+        return True
+    else:
+        return False

@@ -65,8 +65,6 @@ Thoughts:
 import numpy as np
 from itertools import permutations
 
-import numpy as np
-from itertools import permutations
 
 def stringsRearrangement(inputArray):
     inputArray=np.array(inputArray)
