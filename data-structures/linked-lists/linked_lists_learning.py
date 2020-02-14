@@ -138,9 +138,8 @@ class linked_list:
     net_count=0        
     def reverseBatches(self,head,k,net_count=net_count):
         previous=None
-        future=None
         current_node=head
-        count=0
+        
         
         ll_len=self.length(start_node=current_node)
         #print(ll_len)
@@ -149,7 +148,8 @@ class linked_list:
             modulo=k
         else:
             modulo=1
-            
+        
+        count=0
         while current_node!=None and count<modulo:
             #retain next node as future
             future=current_node.next
@@ -176,30 +176,7 @@ class linked_list:
         
         self.tail=self.head
         self.head=previous
-    
-    def reverse2(self, head, k): 
-        current = head  
-        next  = None
-        prev = None
-        count = 0 
-          
-        # Reverse first k nodes of the linked list 
-        while(current is not None and count < k): 
-            next = current.next
-            current.next = prev 
-            prev = current 
-            current = next 
-            count += 1
-  
-        # next is now a pointer to (k+1)th node 
-        # recursively call for the list starting 
-        # from current. And make rest of the list as 
-        # next of first node 
-        if next is not None: 
-            head.next = self.reverse2(next, k) 
-  
-        # prev is new head of the input list 
-        return prev 
+
         
         
         

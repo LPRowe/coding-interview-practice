@@ -49,39 +49,28 @@ Guaranteed constraints:
 The number of different 2 × 2 squares in matrix.
 """
 
+'''
+The previous method that checked whether a sub-matrix was already seen was
+too expensive (timewise)
+
+This method adds tuples to a set and will be rejected if it is already in the set
+'''
+
 import numpy as np
 
-def identical_matrices(m1,m2):
-    '''
-    check if matrix 1 (m1) and matrix 2 (m2) are identical
-    '''
-    for (row1,row2) in zip(m1,m2):
-        for (elem1,elem2) in zip(row1,row2):
-            if elem1!=elem2:
-                return False
-    return True
+def submatrix_from_matrix(matrix,row,column):
+    return((matrix[row][column],matrix[row][column+1],matrix[row+1][column],matrix[row+1][column+1]))
 
-def differentSquares(matrix):
-    matrix=np.array(matrix)
-    height,width=matrix.shape
+def differentSquares(matrix):    
+    height,width=np.array(matrix).shape
         
     #track all unique matrices with a list
-    square_matrices=[]
+    square_matrices=set()
     
-    for column in range(height-1):
-        for row in range(width-1):
-            add_matrix=True
-            sub_matrix=matrix[column:column+2,row:row+2]
-            
-            #ensure no previous occurrences of the sub_matrix exist
-            for existing_submatrix in square_matrices:
-                if identical_matrices(existing_submatrix,sub_matrix):
-                    add_matrix=False
-            
-            #add the sub_matrix to our list only if it is not already in the list
-            if add_matrix:
-                square_matrices.append(sub_matrix)
-        
+    for row in range(height-1):
+        for column in range(width-1):
+            square_matrices.add(submatrix_from_matrix(matrix,row,column))
+                    
     return(len(square_matrices))
     
     
