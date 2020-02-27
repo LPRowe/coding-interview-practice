@@ -26,6 +26,7 @@ class Binary_Search_Tree:
     
     def __init__(self,root=None):
         self.root=root
+        self.val=0
         
     def insert(self,data):
         '''
@@ -162,10 +163,41 @@ class Binary_Search_Tree:
             self._inorder_print_tree(cur_node.left)
             print(str(cur_node.data))
             self._inorder_print_tree(cur_node.right)
+
+    def sum_all_elements(self,start):
+        if not start:
+            return 0
+        else:
+            return start.data+self.sum_all_elements(start.left)+self.sum_all_elements(start.right)
+    
+    def sum_each_path(self,start,val,sums=[]):
+        if not start:
+            print('a')
+            return 0
+        
+        val+=start.data
+        
+        if not start.left and not start.right:
+            sums.append(val)
+            print('b')
+            return sums
+        
+        print('c')
+        return self.sum_each_path(start.left,val,sums=sums)+self.sum_each_path(start.right,val,sums=sums)
+            
+            
         
 
 
 if __name__=='__main__':
+    '''
+        4
+       / \
+      2   8
+         / \
+        5   10
+    
+    '''
     bst=Binary_Search_Tree()
     values=[4,2,8,5,10]
     for value in values:
@@ -179,3 +211,13 @@ if __name__=='__main__':
     print()
     
     print(bst.inorder_print_tree())
+    
+    #print(bst.sum_of_each_path(bst.root))
+    
+    print()
+    
+    print(bst.sum_all_elements(bst.root))
+    
+    print()
+    
+    print(bst.sum_each_path(bst.root,0))
