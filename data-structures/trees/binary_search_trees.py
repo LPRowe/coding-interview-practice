@@ -123,7 +123,7 @@ class Binary_Search_Tree:
             traversal+=str(start.data)+'-'
             traversal=self.inorder_print(start.right,traversal)
         return(traversal)
-        
+            
     def postorder_print(self,start,traversal):
         '''
         Left --> Right

@@ -112,9 +112,13 @@ def isTreeSymmetric(t):
     if not t:
         return True
     
-    tree=[]
+    traversal=[]
     if t:
-        tree.append()
+        traversal.append(isTreeSymmetric(t.left))
+        traversal.append(t.value)
+        traversal.append(isTreeSymmetric(t.right))
+    
+    print(traversal)
     
     
     
